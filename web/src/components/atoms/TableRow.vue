@@ -11,6 +11,7 @@ export default defineComponent({
     },
     items: {
       type: Array as PropType<string[]>,
+      default: () => [],
     },
   },
 });
