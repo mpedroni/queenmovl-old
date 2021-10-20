@@ -3,9 +3,11 @@ import { defineComponent, PropType } from 'vue';
 
 import Film from '@/types/Film';
 
+import PrimaryBtn from '@/components/molecules/PrimaryBtn.vue';
+
 import AppBar from '@/components/organisms/AppBar.vue';
 import FilmTable from '@/components/organisms/FilmTable.vue';
-import PrimaryBtn from '@/components/molecules/PrimaryBtn.vue';
+import NewFilmDialog from '@/components/organisms/NewFilmDialog.vue';
 
 export default defineComponent({
   name: '_home',
@@ -18,9 +20,11 @@ export default defineComponent({
   },
 
   components: {
+    PrimaryBtn,
+
     AppBar,
     FilmTable,
-    PrimaryBtn,
+    NewFilmDialog,
   },
 });
 </script>
@@ -30,12 +34,14 @@ export default defineComponent({
     <AppBar />
 
     <main>
+      <NewFilmDialog />
+
       <section>
         <div>
           <div id="btn-container">
-            <primary-btn>
+            <PrimaryBtn>
               <fa-icon :icon="{prefix: 'fas', iconName: 'plus'}" />
-            </primary-btn>
+            </PrimaryBtn>
           </div>
 
           <div>
@@ -59,7 +65,7 @@ section {
 
 #btn-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-bottom: 15px;
 }
 
