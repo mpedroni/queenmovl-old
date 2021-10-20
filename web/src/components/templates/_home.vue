@@ -5,6 +5,7 @@ import Film from '@/types/Film';
 
 import AppBar from '@/components/organisms/AppBar.vue';
 import FilmTable from '@/components/organisms/FilmTable.vue';
+import PrimaryBtn from '@/components/molecules/PrimaryBtn.vue';
 
 export default defineComponent({
   name: '_home',
@@ -19,6 +20,7 @@ export default defineComponent({
   components: {
     AppBar,
     FilmTable,
+    PrimaryBtn,
   },
 });
 </script>
@@ -28,8 +30,18 @@ export default defineComponent({
     <AppBar />
 
     <main>
-      <section id="film-table__section">
-        <FilmTable :films="films" />
+      <section>
+        <div>
+          <div id="btn-container">
+            <primary-btn>
+              <fa-icon :icon="{prefix: 'fas', iconName: 'plus'}" />
+            </primary-btn>
+          </div>
+
+          <div>
+            <FilmTable :films="films" />
+          </div>
+        </div>
       </section>
     </main>
   </div>
@@ -40,8 +52,15 @@ export default defineComponent({
   margin: 0 200px 0 200px;
 }
 
-#film-table__section {
+section {
   display: flex;
   justify-content: center;
 }
+
+#btn-container {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 15px;
+}
+
 </style>
