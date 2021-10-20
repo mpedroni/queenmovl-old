@@ -1,12 +1,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import PrimaryTextInput from '@/components/molecules/PrimaryTextInput.vue';
 import QDialog from '@/components/atoms/Dialog.vue';
 
 export default defineComponent({
   name: 'NewFilmDialog',
 
   components: {
+    PrimaryTextInput,
     QDialog,
   },
 
@@ -26,6 +28,10 @@ export default defineComponent({
           Adicionar Filme
         </span>
       </header>
+
+      <section id="form">
+        <PrimaryTextInput />
+      </section>
   </QDialog>
 </template>
 
@@ -51,5 +57,9 @@ export default defineComponent({
 #dialog #toolbar #toolbar-title {
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+#form {
+  padding: 15px
 }
 </style>
