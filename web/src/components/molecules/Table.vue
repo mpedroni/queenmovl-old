@@ -40,11 +40,10 @@ export default defineComponent({
 
 table {
   border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
-  font-family: sans-serif;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  min-width: 700px;
+  min-width: 800px;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
 }
 
 table thead tr {
