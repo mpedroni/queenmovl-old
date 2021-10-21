@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button>
+  <button v-bind="$attrs">
     <slot />
   </button>
 </template>

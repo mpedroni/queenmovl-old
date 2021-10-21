@@ -13,9 +13,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <btn v-bind="$attrs">
+  <Btn v-bind="$attrs">
     <slot />
-  </btn>
+  </Btn>
 </template>
 
 <style scoped>
