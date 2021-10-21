@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import Btn from '@/components/atoms/Btn.vue';
 import PrimaryTextInput from '@/components/molecules/PrimaryTextInput.vue';
 import QDialog from '@/components/atoms/Dialog.vue';
 
@@ -8,6 +9,7 @@ export default defineComponent({
   name: 'NewFilmDialog',
 
   components: {
+    Btn,
     PrimaryTextInput,
     QDialog,
   },
@@ -22,16 +24,23 @@ export default defineComponent({
 </script>
 
 <template>
-  <QDialog id="dialog">
+  <QDialog id="dialog" :open="open">
       <header id="toolbar">
         <span id="toolbar-title">
           Adicionar Filme
         </span>
       </header>
 
-      <section id="form">
-        <PrimaryTextInput />
-      </section>
+      <div id="dialog-container">
+        <section id="dialog-content">
+          <PrimaryTextInput />
+        </section>
+
+        <footer id="dialog-actions">
+          <Btn id="add-btn" @click="$emit('confirm')">Adicionar</Btn>
+          <Btn id="cancel-btn" @click="$emit('cancel')">Cancelar</Btn>
+        </footer>
+      </div>
   </QDialog>
 </template>
 
@@ -43,6 +52,10 @@ export default defineComponent({
   border-radius: 12px;
   width: 1000px;
   height: 200px;
+}
+
+#dialog-container {
+  padding: 15px;
 }
 
 #dialog #toolbar {
@@ -59,7 +72,19 @@ export default defineComponent({
   font-size: 1.2rem;
 }
 
-#form {
-  padding: 15px
+#dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+#dialog-actions #add-btn {
+  background-color: transparent;
+  color: var(--primary)
+}
+
+#dialog-actions #cancel-btn {
+  background-color: transparent;
+  color: var(--error)
 }
 </style>

@@ -4,12 +4,26 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'QDialog',
 
-  mounted() {
-    const dialog = window.document.querySelector('dialog');
+  props: {
+    /**
+     * Controls the state of the dialog (open or closed)
+     */
+    open: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
-    /* eslint-disable-next-line */
-    // @ts-ignore
-    dialog.showModal();
+  computed: {
+    dialog() {
+      return this.$el as HTMLDialogElement & { showModal(): void, close(): void, open: boolean };
+    },
+  },
+
+  watch: {
+    open(open: boolean) {
+      this.dialog[open ? 'showModal' : 'close']();
+    },
   },
 });
 </script>

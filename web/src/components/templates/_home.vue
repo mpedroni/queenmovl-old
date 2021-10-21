@@ -12,13 +12,6 @@ import NewFilmDialog from '@/components/organisms/NewFilmDialog.vue';
 export default defineComponent({
   name: '_home',
 
-  props: {
-    films: {
-      type: Array as PropType<Film[]>,
-      required: true,
-    },
-  },
-
   components: {
     PrimaryBtn,
 
@@ -26,6 +19,18 @@ export default defineComponent({
     FilmTable,
     NewFilmDialog,
   },
+
+  props: {
+    films: {
+      type: Array as PropType<Film[]>,
+      required: true,
+    },
+  },
+
+  data: () => ({
+    dialog: false,
+  }),
+
 });
 </script>
 
@@ -34,12 +39,16 @@ export default defineComponent({
     <AppBar />
 
     <main>
-      <NewFilmDialog />
+      <NewFilmDialog
+        :open="dialog"
+        @confirm="() => {}"
+        @cancel="() => {}"
+      />
 
       <section>
         <div>
           <div id="btn-container">
-            <PrimaryBtn>
+            <PrimaryBtn @click="dialog = true">
               <fa-icon :icon="{prefix: 'fas', iconName: 'plus'}" />
             </PrimaryBtn>
           </div>
