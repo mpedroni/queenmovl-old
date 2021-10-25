@@ -1,9 +1,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import Movie from '@/types/Movie';
+
 import Btn from '@/components/atoms/Btn.vue';
-import TextInput from '@/components/atoms/TextInput.vue';
+import MovieCard from '@/components/organisms/MovieCard.vue';
 import QDialog from '@/components/atoms/Dialog.vue';
+import TextInput from '@/components/atoms/TextInput.vue';
 
 import searchMovie from '@/api/requests/searchMovie';
 
@@ -12,8 +15,9 @@ export default defineComponent({
 
   components: {
     Btn,
-    TextInput,
+    MovieCard,
     QDialog,
+    TextInput,
   },
 
   props: {
@@ -24,17 +28,21 @@ export default defineComponent({
   },
 
   data: () => ({
+    error: '',
+    movies: [] as Movie[],
     title: '',
-    movies: [],
   }),
 
   methods: {
     async searchMovie() {
-      const movies: any = await searchMovie({ name: this.title });
+      const response = await searchMovie({ name: this.title });
 
-      this.movies = movies.results;
+      if ('statusCode' in response) {
+        this.error = response.statusMessage;
+        return;
+      }
 
-      console.log(movies.results);
+      this.movies = response.results;
     },
   },
 });
@@ -42,45 +50,50 @@ export default defineComponent({
 
 <template>
   <QDialog id="dialog" :open="open">
-      <header id="toolbar">
-        <span id="toolbar-title">
-          Adicionar Filme
-        </span>
-      </header>
+    <header id="toolbar">
+      <span id="toolbar-title">
+        Adicionar Filme
+      </span>
+    </header>
 
-      <div id="dialog-container">
-        <section id="dialog-content">
-          <TextInput
-            v-model:value="title"
-            label="Título"
-            @input="title.length > 3 && searchMovie()"
-          />
-        </section>
+    <div id="dialog-container">
+      <section id="dialog-content">
+        <TextInput
+          v-model:value="title"
+          label="Título"
+          @input="title.length > 3 && searchMovie()"
+        />
+      </section>
 
-        <section>
-          <div v-for="movie in movies" :key="movie.id" style="margin: 4px 0">
-            <span>
-              {{ movie.title }}
-            </span>
-          </div>
-        </section>
+      <section v-if="title.length < 3">
+        <span>Digite pelo menos 3 letras para pesquisar</span>
+      </section>
 
-        <footer id="dialog-actions">
-          <Btn id="add-btn" @click="$emit('confirm')">Adicionar</Btn>
-          <Btn id="cancel-btn" @click="$emit('cancel')">Cancelar</Btn>
-        </footer>
-      </div>
+      <section v-else-if="!movies.length">
+        <span>Nenhum com filme esse nome foi encontrado :(</span>
+      </section>
+
+      <article v-else>
+        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
+      </article>
+
+      <footer id="dialog-actions">
+        <Btn id="add-btn" @click="$emit('confirm')">Adicionar</Btn>
+        <Btn id="cancel-btn" @click="$emit('cancel')">Cancelar</Btn>
+      </footer>
+    </div>
   </QDialog>
 </template>
 
 <style scoped>
-@import url('../../styles/colors.css');
+@import url("../../styles/colors.css");
 
 #dialog {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   border-radius: 12px;
   width: 1000px;
-  height: 200px;
+  height: fit-content;
+  max-height: 700px;
 }
 
 #dialog-container {
@@ -109,11 +122,11 @@ export default defineComponent({
 
 #dialog-actions #add-btn {
   background-color: transparent;
-  color: var(--primary)
+  color: var(--primary);
 }
 
 #dialog-actions #cancel-btn {
   background-color: transparent;
-  color: var(--error)
+  color: var(--error);
 }
 </style>
