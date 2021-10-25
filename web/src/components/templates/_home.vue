@@ -30,7 +30,6 @@ export default defineComponent({
   data: () => ({
     dialog: false,
   }),
-
 });
 </script>
 
@@ -41,8 +40,8 @@ export default defineComponent({
     <main>
       <NewFilmDialog
         :open="dialog"
-        @confirm="() => {}"
-        @cancel="() => {}"
+        @confirm="dialog = false"
+        @cancel="dialog = false"
       />
 
       <section>
