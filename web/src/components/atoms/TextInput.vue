@@ -9,13 +9,28 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+
+  computed: {
+    model: {
+      get() {
+        return this.value;
+      },
+      set(value: string) {
+        this.$emit('update:value', value);
+      },
+    },
   },
 });
 </script>
 
 <template>
   <div class="input__wrapper">
-    <input id="text-input" type="text" v-bind="$attrs" placeholder="&nbsp;">
+    <input v-model="model" id="text-input" type="text" v-bind="$attrs" placeholder="&nbsp;">
     <label for="text-input">
       {{ label }}
     </label>
