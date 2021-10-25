@@ -19,7 +19,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../css/colors.css');
+@import url('../../styles/colors.css');
 
 button {
   background-color: var(--primary);

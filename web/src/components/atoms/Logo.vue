@@ -5,7 +5,7 @@
 </template>
 
 <style scoped>
-@import url('../../css/colors.css');
+@import url('../../styles/colors.css');
 
 #logo {
   font-family: monospace;
