@@ -2,15 +2,17 @@
 import { defineComponent } from 'vue';
 
 import Btn from '@/components/atoms/Btn.vue';
-import PrimaryTextInput from '@/components/molecules/PrimaryTextInput.vue';
+import TextInput from '@/components/atoms/TextInput.vue';
 import QDialog from '@/components/atoms/Dialog.vue';
+
+import searchMovie from '@/api/requests/searchMovie';
 
 export default defineComponent({
   name: 'NewFilmDialog',
 
   components: {
     Btn,
-    PrimaryTextInput,
+    TextInput,
     QDialog,
   },
 
@@ -18,6 +20,21 @@ export default defineComponent({
     open: {
       type: Boolean,
       default: false,
+    },
+  },
+
+  data: () => ({
+    title: '',
+    movies: [],
+  }),
+
+  methods: {
+    async searchMovie() {
+      const movies: any = await searchMovie({ name: this.title });
+
+      this.movies = movies.results;
+
+      console.log(movies.results);
     },
   },
 });
@@ -33,7 +50,19 @@ export default defineComponent({
 
       <div id="dialog-container">
         <section id="dialog-content">
-          <PrimaryTextInput />
+          <TextInput
+            v-model:value="title"
+            label="Título"
+            @input="title.length > 3 && searchMovie()"
+          />
+        </section>
+
+        <section>
+          <div v-for="movie in movies" :key="movie.id" style="margin: 4px 0">
+            <span>
+              {{ movie.title }}
+            </span>
+          </div>
         </section>
 
         <footer id="dialog-actions">
@@ -45,7 +74,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-@import url('../../css/colors.css');
+@import url('../../styles/colors.css');
 
 #dialog {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
