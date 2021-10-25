@@ -15,6 +15,6 @@ api.interceptors.response.use((response: AxiosResponse) => {
   }
 
   return response;
-});
+}, (error) => Promise.reject(camelizeKeys(error as Record<string, unknown>)));
 
 export default api;
