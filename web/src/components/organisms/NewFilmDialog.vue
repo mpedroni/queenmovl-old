@@ -57,7 +57,7 @@ export default defineComponent({
     </header>
 
     <div id="dialog-container">
-      <section id="dialog-content">
+      <section id="dialog-text-input">
         <TextInput
           v-model:value="title"
           label="Título"
@@ -73,8 +73,8 @@ export default defineComponent({
         <span>Nenhum com filme esse nome foi encontrado :(</span>
       </section>
 
-      <article v-else>
-        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
+      <article v-else class="movie-list">
+        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" class="movie" />
       </article>
 
       <footer id="dialog-actions">
@@ -98,6 +98,10 @@ export default defineComponent({
 
 #dialog-container {
   padding: 15px;
+}
+
+#dialog-text-input {
+  margin-bottom: 15px;
 }
 
 #dialog #toolbar {
@@ -128,5 +132,9 @@ export default defineComponent({
 #dialog-actions #cancel-btn {
   background-color: transparent;
   color: var(--error);
+}
+
+.movie-list .movie:not(:last-child) {
+  margin-bottom: 15px;
 }
 </style>
