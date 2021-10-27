@@ -19,6 +19,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>
@@ -31,6 +35,12 @@ export default defineComponent({
 
     <tbody>
       <TableRow v-for="item in items" :key="item" tag="td" :items="item" />
+      <TableRow
+        v-if="!loading && !items.length"
+        tag="td"
+        empty
+        emptyMessage="Ainda não foram adicionados filmes"
+      />
     </tbody>
   </table>
 </template>
