@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { format, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import Movie from '@/types/Movie';
 
@@ -8,6 +10,12 @@ export default defineComponent({
 
   props: {
     movie: Object as PropType<Movie>,
+  },
+
+  methods: {
+    formatDate(date: string) {
+      return format(parseISO(date), 'LLLL/yyyy', { locale: ptBR })
+    },
   },
 });
 </script>
@@ -20,13 +28,16 @@ export default defineComponent({
 
     <section class="main">
       <h2>{{ movie.title }}</h2>
-      <h3>{{ movie.originalTitle }}</h3>
+      <h3>
+        {{ movie.originalTitle }}<span v-if="movie.originalTitle && movie.releaseDate">, </span>
+        {{ movie.releaseDate && formatDate(movie.releaseDate) }}
+      </h3>
 
-      <p>{{ movie.overview }}</p>
+      <p>{{ movie.overview || 'Sinopse não encontrada' }}</p>
     </section>
 
     <section class="infos">
-      {{ movie.releaseDate }}
+      <fa-icon :icon="{prefix: 'fas', iconName: 'chevron-right'}" />
     </section>
   </div>
 </template>
@@ -43,7 +54,7 @@ export default defineComponent({
 .movie-card {
   display: grid;
   box-sizing: border-box;
-  grid-template-columns: auto 3fr 1fr;
+  grid-template-columns: auto 11fr 1fr;
   align-items: flex-start;
   grid-gap: 12px;
   padding: 12px;
@@ -60,7 +71,7 @@ export default defineComponent({
 }
 
 .movie-card .main h3 {
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(0, 0, 0, 0.3);
   margin-bottom: 10px
 }
@@ -71,7 +82,10 @@ export default defineComponent({
 }
 
 .movie-card .infos {
-
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>
