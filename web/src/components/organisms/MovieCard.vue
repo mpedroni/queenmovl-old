@@ -5,8 +5,14 @@ import { ptBR } from 'date-fns/locale';
 
 import Movie from '@/types/Movie';
 
+import MoviePoster from '@/components/atoms/MoviePoster.vue'
+
 export default defineComponent({
   name: 'MovieCard',
+
+  components: {
+    MoviePoster,
+  },
 
   props: {
     movie: Object as PropType<Movie>,
@@ -26,7 +32,7 @@ export default defineComponent({
 <template>
   <div class="movie-card" @click="addMovie">
     <section class="poster">
-      <img :src="`https://image.tmdb.org/t/p/w92/${movie.posterPath}`" :alt="`${movie.title} movie poster`">
+      <MoviePoster :movie="movie" />
     </section>
 
     <section class="main">
@@ -65,10 +71,6 @@ export default defineComponent({
   border: solid 1px rgba(0, 0, 0, 0.1);
   transition: border 0.2s ease;
   transition: background 0.2s ease;
-}
-
-.movie-card .poster img {
-  border-radius: 8px;
 }
 
 .movie-card h2, h3, p {
