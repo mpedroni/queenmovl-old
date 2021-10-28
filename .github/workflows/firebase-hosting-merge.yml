@@ -17,3 +17,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QUEENMOVL }}'
           channelId: live
           projectId: queenmovl
+          path: './web'
