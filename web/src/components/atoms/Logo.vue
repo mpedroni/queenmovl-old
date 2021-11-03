@@ -1,5 +1,20 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Logo',
+
+  props: {
+    size: {
+      type: [String, Number],
+      default: '2rem',
+    },
+  },
+})
+</script>
+
 <template>
-  <span id="logo">
+  <span id="logo" :style="{ 'font-size': size }">
     <img src="../../assets/logo.svg" alt="Queenmovl Logo">
     queenmovl
   </span>
@@ -12,9 +27,9 @@
   display: inline-flex;
   align-items: center;
   font-family: monospace;
-  font-size: 2rem;
   font-weight: bold;
   color: var(--primary);
+  user-select: none;
 }
 
 #logo img {
