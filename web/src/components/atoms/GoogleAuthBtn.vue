@@ -2,7 +2,7 @@
 import { defineComponent, ref } from 'vue';
 import { User } from '@firebase/auth';
 
-import { loginWithGoogle } from '@/api/firebase';
+import loginWithGoogle from '@/firebase/auth/loginWithGoogle';
 
 export default defineComponent({
   name: 'GoogleAuthBtn',
@@ -22,6 +22,7 @@ export default defineComponent({
 
     return {
       login,
+      user,
     }
   },
 

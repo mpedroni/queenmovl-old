@@ -1,9 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getAuth, GoogleAuthProvider, signInWithPopup, UserCredential,
-} from '@firebase/auth';
 
-const firebase = initializeApp({
+const app = initializeApp({
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
   authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.VUE_APP_FIREBASE_DATABASE_URL,
@@ -13,11 +10,4 @@ const firebase = initializeApp({
   appId: process.env.VUE_APP_FIREBASE_APP_ID,
 });
 
-export const loginWithGoogle = async (): Promise<UserCredential> => {
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth();
-
-  return signInWithPopup(auth, provider);
-}
-
-export default firebase;
+export default app;
