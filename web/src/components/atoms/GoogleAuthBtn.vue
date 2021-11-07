@@ -1,29 +1,21 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { User } from '@firebase/auth';
+import { defineComponent } from 'vue';
 
 import loginWithGoogle from '@/firebase/auth/loginWithGoogle';
 
 export default defineComponent({
   name: 'GoogleAuthBtn',
 
-  setup() {
-    const user = ref({} as User);
-
-    async function login() {
+  methods: {
+    async login() {
       try {
         const response = await loginWithGoogle();
 
-        user.value = response.user;
+        this.$store.commit('auth/setAuth', response);
       } catch (error) {
         console.log(error)
       }
-    }
-
-    return {
-      login,
-      user,
-    }
+    },
   },
 
 })
