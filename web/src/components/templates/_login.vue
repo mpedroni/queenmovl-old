@@ -15,15 +15,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <header class="alert">
-    <fa-icon class="icon" :icon="{ prefix: 'fa', iconName: 'exclamation' }" />
-
-    <span>
-        Queenmovl é um projeto em desenvolvimento.
-        Portanto, o acesso está limitado apenas para alguns usuários.
-    </span>
-  </header>
-
   <div class="container">
 
     <section>
@@ -46,23 +37,6 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
-
-.alert {
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding: 24px;
-  text-align: center;
-  background-color: #2196f333;
-  color: rgba(0, 0, 0, 0.4);
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.alert .icon {
-  margin-right: 16px;
 }
 
 .container section header {
