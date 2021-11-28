@@ -1,10 +1,9 @@
 import {
-  getAuth, GoogleAuthProvider, signInWithPopup, UserCredential, connectAuthEmulator,
+  GoogleAuthProvider, signInWithPopup, UserCredential, connectAuthEmulator,
 } from '@firebase/auth';
 
-import app from '@/firebase';
+import auth from '@/firebase/auth';
 
-const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 /* eslint-disable no-restricted-globals */

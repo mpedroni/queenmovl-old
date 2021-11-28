@@ -3,26 +3,36 @@ import { defineComponent } from 'vue';
 
 import AppBar from '@/components/organisms/AppBar.vue';
 import Avatar from '@/components/atoms/Avatar.vue';
-// import FilmTable from '@/components/organisms/FilmTable.vue';
+import NewListDialog from '@/components/organisms/NewListDialog.vue';
 import PrimaryBtn from '@/components/molecules/PrimaryBtn.vue';
 
-type Status = 'idle' | 'pending' | 'rejected' | 'resolved';
+import useUserLists from '@/composables/useUserLists';
 
+type Status = 'idle' | 'pending' | 'rejected' | 'resolved';
 const status: Status = 'idle';
 
 export default defineComponent({
   name: '_home',
 
+  setup() {
+    const { lists, create } = useUserLists();
+
+    return {
+      lists,
+      create,
+    }
+  },
+
   components: {
     AppBar,
     Avatar,
-    // FilmTable,
+    NewListDialog,
     PrimaryBtn,
   },
 
   data: () => ({
     active: null,
-    myLists: [],
+    dialog: true,
     otherLists: [],
     status,
   }),
@@ -31,7 +41,13 @@ export default defineComponent({
 </script>
 
 <template>
+    <NewListDialog
+      :open="dialog"
+      @confirm="dialog = false"
+      @cancel="dialog = false"
+    />
   <div class="container">
+
     <header>
       <AppBar />
     </header>
@@ -51,24 +67,24 @@ export default defineComponent({
         <h2>
           Minhas Listas
           <span>
-            <PrimaryBtn>
+            <PrimaryBtn @click="dialog = !dialog">
               <fa-icon :icon="{prefix: 'fas', iconName: 'plus'}" />
             </PrimaryBtn>
           </span>
         </h2>
 
         <ul>
-          <li v-if="status !== 'pending' && !myLists.length" class="no-data-text">
+          <li v-if="status !== 'pending' && (!lists || !lists.length)" class="no-data-text">
             Nenhuma lista encontrada. Clique no botão para criar uma.
           </li>
 
           <li
-            v-for="list in myLists"
-            :key="list.id"
-            @click="active = list.id"
-            :active="active === list.id"
+            v-for="list in lists"
+            :key="list.uid"
+            @click="active = list.uid"
+            :active="active === list.uid"
           >
-            <h3 v-text="list.title" />
+            <h3 v-text="list.name" />
           </li>
         </ul>
 
@@ -142,6 +158,7 @@ export default defineComponent({
   background: rgba(0, 0, 0, 0.02);
   border: solid 1px rgba(0, 0, 0, 0.05);
   padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .sidebar h1 {
