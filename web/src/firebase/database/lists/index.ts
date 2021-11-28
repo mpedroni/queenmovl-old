@@ -1,7 +1,7 @@
 import { create } from './create';
 import { listen } from './listen';
 
-export default {
+export {
   create,
   listen,
 };
