@@ -2,10 +2,10 @@ import { ref, Ref } from 'vue'
 import { listen, create } from '@/firebase/database/lists';
 
 type List = {
-  uid: string;
+  id: string;
   name: string;
   type: string;
-  headers: string[];
+  headerId: string;
 }
 
 interface UseUserListsReturn {
