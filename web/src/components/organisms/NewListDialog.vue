@@ -10,6 +10,8 @@ import useUserLists from '@/composables/useUserLists';
 export default defineComponent({
   name: 'NewListDialog',
 
+  emits: ['cancel', 'create'],
+
   components: {
     Btn,
     QDialog,
@@ -23,7 +25,7 @@ export default defineComponent({
     },
   },
 
-  setup() {
+  setup(props, { emit }) {
     const headers = ref('');
     const name = ref('');
     const type = ref('');
@@ -34,6 +36,8 @@ export default defineComponent({
       try {
         const parsedHeaders = headers.value.split(',').map((header) => header.trim());
         await create({ name: name.value, type: type.value, headers: parsedHeaders });
+
+        emit('create');
       } catch (error) {
         console.log(error);
       }
