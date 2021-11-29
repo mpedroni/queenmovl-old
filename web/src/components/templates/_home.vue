@@ -6,6 +6,7 @@ import Avatar from '@/components/atoms/Avatar.vue';
 import NewListDialog from '@/components/organisms/NewListDialog.vue';
 import PrimaryBtn from '@/components/molecules/PrimaryBtn.vue';
 
+import useAuth from '@/composables/useAuth';
 import useUserLists from '@/composables/useUserLists';
 
 type Status = 'idle' | 'pending' | 'rejected' | 'resolved';
@@ -15,11 +16,13 @@ export default defineComponent({
   name: '_home',
 
   setup() {
+    const { user } = useAuth();
     const { lists, create } = useUserLists();
 
     return {
-      lists,
       create,
+      lists,
+      user,
     }
   },
 
@@ -32,7 +35,7 @@ export default defineComponent({
 
   data: () => ({
     active: null,
-    dialog: true,
+    dialog: false,
     otherLists: [],
     status,
   }),
@@ -43,7 +46,7 @@ export default defineComponent({
 <template>
     <NewListDialog
       :open="dialog"
-      @confirm="dialog = false"
+      @create="dialog = false"
       @cancel="dialog = false"
     />
   <div class="container">
@@ -58,8 +61,8 @@ export default defineComponent({
         alt="Avatar do Eduarda Vieira"
       />
 
-      <h1>Eduarda Vieira</h1>
-      <h2>@duds</h2>
+      <h1 v-text="user.displayName" />
+      <!-- <h2>@duds</h2> -->
 
       <hr />
 
@@ -67,28 +70,28 @@ export default defineComponent({
         <h2>
           Minhas Listas
           <span>
-            <PrimaryBtn @click="dialog = !dialog">
+            <PrimaryBtn @click="dialog = true">
               <fa-icon :icon="{prefix: 'fas', iconName: 'plus'}" />
             </PrimaryBtn>
           </span>
         </h2>
 
         <ul>
-          <li v-if="status !== 'pending' && (!lists || !lists.length)" class="no-data-text">
+          <li v-if="status !== 'pending' && !lists.length" class="no-data-text">
             Nenhuma lista encontrada. Clique no botão para criar uma.
           </li>
 
           <li
             v-for="list in lists"
-            :key="list.uid"
-            @click="active = list.uid"
-            :active="active === list.uid"
+            :key="list.id"
+            @click="active = list.id"
+            :active="active === list.id"
           >
             <h3 v-text="list.name" />
           </li>
         </ul>
 
-        <h2>
+        <!-- <h2>
           Listas que participo
         </h2>
 
@@ -105,7 +108,7 @@ export default defineComponent({
           >
             <h3 v-text="list.title" />
           </li>
-        </ul>
+        </ul> -->
       </nav>
     </aside>
 
@@ -117,7 +120,7 @@ export default defineComponent({
       </section>
     </main>
 
-    <aside v-if="active" class="members">
+    <!-- <aside v-if="active" class="members">
       <h2>Membros da Lista</h2>
       <ul>
         <li>
@@ -133,7 +136,7 @@ export default defineComponent({
           </div>
         </li>
       </ul>
-    </aside>
+    </aside> -->
   </div>
 </template>
 
@@ -202,7 +205,7 @@ export default defineComponent({
   padding-left: 12px;
 }
 
-.sidebar nav ul li {
+.sidebar nav ul li:not(.no-data-text) {
   margin-bottom: 5px;
   cursor: pointer;
 }
